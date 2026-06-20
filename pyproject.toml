@@ -1,0 +1,37 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pyfarm-scheduler"
+version = "0.1.0"
+description = "Async job orchestration engine for the pyfarm platform"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.11"
+dependencies = [
+    "pyfarm-core>=0.1.0",
+    "pyfarm-storage>=0.1.0",
+    "pyfarm-analytics>=0.1.0",
+    "apscheduler>=3.10,<4.0",
+    "fastapi>=0.95,<0.96",
+    "uvicorn[standard]>=0.20,<0.21",
+    "pydantic>=2.0,<3.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-asyncio>=0.21",
+    "httpx>=0.24",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pyfarm"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.hatch.metadata]
+allow-direct-references = true
