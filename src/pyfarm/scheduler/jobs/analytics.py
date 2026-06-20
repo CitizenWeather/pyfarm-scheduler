@@ -8,10 +8,11 @@ from typing import TYPE_CHECKING
 
 from pyfarm.analytics import Analyzer
 from pyfarm.core.models import ControlEvent, EventKind
+from pyfarm.core.storage import StorageBackend
 from pyfarm.scheduler.jobs.base import Job
 
 if TYPE_CHECKING:
-    from pyfarm.storage.backend import StorageBackend
+    pass
 
 logger = logging.getLogger(__name__)
 
