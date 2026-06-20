@@ -13,11 +13,11 @@ Endpoints:
 
 from __future__ import annotations
 
-import os
 from typing import Any
 
 from fastapi import Depends, FastAPI, Header, HTTPException, status
 
+from pyfarm.config import get_settings
 from pyfarm.scheduler.models import JobResult, SchedulerStatus
 from pyfarm.scheduler.scheduler import Scheduler
 
@@ -55,21 +55,15 @@ def get_scheduler() -> Scheduler:
 # Auth dependency
 # ---------------------------------------------------------------------------
 
-_TOKEN_ENV_VAR = "SCHEDULER_INTERNAL_TOKEN"
-
 
 def verify_token(x_internal_token: str = Header(...)) -> None:
     """Verify the shared-secret internal token from the request header.
 
     Raises:
-        HTTPException 401: Token missing or does not match env var.
+        HTTPException 401: Token missing or does not match configured token.
     """
-    expected = os.environ.get(_TOKEN_ENV_VAR, "")
-    if not expected:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"{_TOKEN_ENV_VAR} is not configured.",
-        )
+    settings = get_settings()
+    expected = settings.scheduler_internal_token.get_secret_value()
     if x_internal_token != expected:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
