@@ -16,7 +16,7 @@ from pyfarm.scheduler.models import JobResult, JobStatus, SchedulerStatus
 
 if TYPE_CHECKING:
     from pyfarm.scheduler.jobs.base import Job
-    from pyfarm.storage.backend import StorageBackend
+    from pyfarm.core.storage import StorageBackend
 
 logger = logging.getLogger(__name__)
 
